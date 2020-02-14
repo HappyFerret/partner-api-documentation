@@ -40,7 +40,7 @@ We recommend three:
 
 ## Generating your keys
 
-> To generate the keys with shell (Leave the passphrase blank)
+> To generate the keys with shell
 
 ```
 ssh-keygen -t rsa -b 2048 -f ./jwt.key -m PEM && ssh-keygen -f jwt.key.pub -e -m pkcs8
@@ -51,7 +51,7 @@ If this doesn't work on your machine you might like to try using Docker (see bel
 
 ### Using Docker to generate keys
 
-> To generate the keys with docker (Leave the passphrase blank)
+> To generate the keys with docker
 
 ```
 docker run -it -v $(pwd):/export frapsoft/openssl genrsa -aes256 -out /export/jwt.key
