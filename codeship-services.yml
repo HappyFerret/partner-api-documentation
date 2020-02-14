@@ -2,17 +2,13 @@ partner-api-documentation:
   build:
     image: partner-api-documentation
     dockerfile: Dockerfile
-  dockercfg_service: aws-generator
   cached: true
+  volumes:
+    - ./tmp:/app/build
 
-aws-generator:
-  image: codeship/aws-ecr-dockercfg-generator
+awsdeployment:
+  image: codeship/aws-deployment
   encrypted_env_file: codeship.env.encrypted
-  add_docker: true
+  volumes_from:
+    - partner-api-documentation
 
-deploy-terraform:
-  image: 611461148299.dkr.ecr.eu-west-1.amazonaws.com/base-images:deploy-terraform
-  dockercfg_service: aws-generator
-  encrypted_env_file: codeship.env.encrypted
-  environment:
-    SERVICE_TO_DEPLOY: "partner_api_documentation"

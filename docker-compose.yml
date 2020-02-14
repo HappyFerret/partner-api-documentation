@@ -4,3 +4,4 @@ app:
     - 4567:4567
   volumes:
     - ./source:/usr/src/app/source
+  command: make run

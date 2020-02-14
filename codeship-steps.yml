@@ -1,12 +1,8 @@
-- name: Push To ECR Prod
+- name: Build
   service: partner-api-documentation
-  type: push
-  image_name: 611461148299.dkr.ecr.eu-west-1.amazonaws.com/partner-api-documentation
-  image_tag: "prod-{{.CommitID}}"
-  registry: https://611461148299.dkr.ecr.eu-west-1.amazonaws.com
-  dockercfg_service: aws-generator
   tag: master
-- name: Deploy to Prod
-  service: deploy-terraform
+  command: make build
+- name: Deploy
+  service: awsdeployment
   tag: master
-  command: make run-prod
+  command: aws s3 sync /app/build s3://docs.localheroes.com/partner --acl public-read --delete
