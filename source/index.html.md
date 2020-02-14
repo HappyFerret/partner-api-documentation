@@ -32,6 +32,7 @@ If you have any questions, please email apiteam@localheroes.com or speak to your
 ## Discover the schema
 
 You should use a GraphQL discovery tool to see our schema and all the properties available.
+Our schema url is `https://services.localheroes.com/graphql`
 We recommend three:
 
 * [FireCamp](https://firecamp.io/)
