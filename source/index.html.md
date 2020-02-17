@@ -77,7 +77,7 @@ You must replace <code>${YOUR_JWT}</code> with the JWT you generated for this re
 
 > Header
 
-```
+```json
 {
   "alg": "RS256",
   "typ": "JWT"
@@ -86,7 +86,7 @@ You must replace <code>${YOUR_JWT}</code> with the JWT you generated for this re
 
 > Payload
 
-```
+```json
 {
   "iss": "partner",
   "aud": "LocalHeroes",
