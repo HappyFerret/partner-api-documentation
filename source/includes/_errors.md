@@ -31,7 +31,7 @@ Error messages are returned in JSON format. For example, an error might look lik
 }
 ```
 
-## Authentication Error Codes
+## Global Authentication Error Codes
 
 The error code can be found in `errors[index].extensions.code`
 The error message can be found in `errors[index].message`
@@ -44,7 +44,7 @@ The error message can be found in `errors[index].message`
 |KEYS_NOT_FOUND|  Keys not found| Keys must be provided and the correct ones
 |UNKNOWN_ERROR| various messages| An unknown error occurred, please check the error message for more information
 
-## Logic Error Codes
+## Global Logic Error Codes
 
 The error code can be found in `errors[index].extensions.code`
 The error message can be found in `errors[index].message`
