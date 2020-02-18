@@ -51,10 +51,4 @@ The error message can be found in `errors[index].message`
 
 |Code|Text|Description|
 |--- |--- |--- |
-|BAD_USER_INPUT|  Invalid parameter [list of parameters (example: firstName, lastName)]|  One of the following input is badly formatted (INVALID_FORMAT) or empty (EMPTY)
-|NOT_AUTHORIZED|  You are not authorized to create this type of job|  You do not have the permissions to create that type of job. Please contact your LocalHeroes representative
-|NOT_AUTHORIZED|  You do not have permission to skip the coverage check|  You do not have the permissions to skip the coverage check. Please contact your LocalHeroes representative
-|AREA_NOT_COVERED|  Area not covered| We do not have any hero available to cover this area
-|TRADER_NOT_ELIGIBLE| Trader with id: {{TRADER_ID}} is not eligible for this job|  The assigned trader is not eligible to cover this type of work in this area
-|JOB_CREATION_ERROR|  Failed to create job: {{error}}|  There was an error creating the job, please see the message for more information
 |JOB_CREATION_LIMIT_REACHED|  Daily jobs creation limit reached| You've reached your daily limit of job creation, please try again the next day.
