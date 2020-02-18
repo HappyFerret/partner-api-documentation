@@ -416,3 +416,73 @@ The response can be one of two values:
 - `Authorization: Bearer JWT_TOKEN_HERE`
 - `Referrer: YOUR_COMPANY_NAME`
 - `Content-Type: application/json`
+
+## Reschedule a Job
+
+```typescript
+interface RescheduleJobVariables {
+  partnerJobRef: string;
+  timeslot: {
+    startDateTime: Date;
+    endDateTime: Date;
+  };
+}
+interface RescheduleJobResponse {
+  job_rescheduleJobByPartnerJobRef: boolean;
+}
+
+const rescheduleJobByPartnerJobRefMutation = gql`
+  mutation YOUR_COMPANY_NAME_rescheduleJob(partnerJobRef: String!, timeslot: job_InputTimeslot) {
+    job_rescheduleJobByPartnerJobRef(partnerJobRef: $partnerJobRef, timeslot: $timeslot)
+  }
+`;
+const client = getClient();
+
+const response = await client.mutate<RescheduleJobResponse, RescheduleJobVariables>({
+  mutation: rescheduleJobByPartnerJobRefMutation,
+  variables: { partnerJobRef, timeslot }
+});
+```
+
+```shell
+curl 'https://services.localheroes.com/graphql'
+  -H 'Content-Type: application/json'
+  -H 'Accept: application/json'
+  -H 'Authorization: Bearer ${YOUR_JWT_HERE}'
+  --data-binary '{"query":"mutation YOUR_COMPANY_NAME_rescheduleJob(partnerJobRef: String!, timeslot: job_InputTimeslot) {\n    job_rescheduleJobByPartnerJobRef(partnerJobRef: $partnerJobRef, timeslot: $timeslot)\n  }","variables":{"partnerJobRef":"1234","timeslot":[{"startDateTime": "2020-01-01T08:00:00.000Z", "endDateTime": "2020-01-01T012:00:00.000Z"}]}'
+  --compressed
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "data": {
+    "job_rescheduleJobByPartnerJobRef": true
+  }
+}
+```
+
+The response can be one of two values:
+
+* `true` - The job has been rescheduled
+* An error condition reported in the error object.
+
+### Variables
+
+| Name  | Optional | Notes | Type |
+| - | - | - | - |
+| partnerJobRef | NO | Limit: 255 characters  | String |
+| timeslot | NO | The timeslot object | Object |
+| timeslot.startDateTime | NO | The start time of the timeSlot - If none given then value should be null | String |
+| timeslot.endDateTime | NO | The end time of the timeSlot - If none given then value should be null | String 
+
+### HTTP Request
+
+`POST https://services.localheroes.com/graphql`
+
+### HTTP Headers
+
+- `Authorization: Bearer JWT_TOKEN_HERE`
+- `Referrer: YOUR_COMPANY_NAME`
+- `Content-Type: application/json`
