@@ -370,23 +370,23 @@ The error message can be found in `errors[index].message`
 
 ```typescript
 interface CancelJobVariables {
-  partnerJobRef: string;
+  id: number;
   reason?: string;
 }
 interface CancelJobResponse {
   job_cancelJobByPartnerJobRef: boolean;
 }
 
-const cancelJobByPartnerJobRefMutation = gql`
-  mutation YOUR_COMPANY_NAME_cancelJob($partnerJobRef: String!, $reason: String) {
-    job_cancelJobByPartnerJobRef(partnerJobRef: $partnerJobRef, reason: $reason)
+const cancelJobByIdMutation = gql`
+  mutation YOUR_COMPANY_NAME_cancelJob($id: Int!, $reason: String) {
+    job_cancelJobById(id: $id, reason: $reason)
   }
 `;
 const client = getClient();
 
 const response = await client.mutate<CancelJobResponse, CancelJobVariables>({
-  mutation: cancelJobByPartnerJobRefMutation,
-  variables: { partnerJobRef, reason }
+  mutation: cancelJobByIdMutation,
+  variables: { id, reason }
 });
 ```
 
@@ -395,7 +395,7 @@ curl 'https://services.localheroes.com/graphql'
   -H 'Content-Type: application/json'
   -H 'Accept: application/json'
   -H 'Authorization: Bearer ${YOUR_JWT_HERE}'
-  --data-binary '{"query":"mutation YOUR_COMPANY_NAME_cancelJob($partnerJobRef: String!, $reason: String) {\n    job_cancelJobByPartnerJobRef(partnerJobRef: $partnerJobRef, reason: $reason)\n  }","variables":{"partnerJobRef":"1234","reason":"A reason"}'
+  --data-binary '{"query":"mutation YOUR_COMPANY_NAME_cancelJob($id: Int!, $reason: String) {\n    job_cancelJobById(id: $id, reason: $reason)\n  }","variables":{"id":1234,"reason":"A reason"}'
   --compressed
 ```
 
@@ -404,7 +404,7 @@ curl 'https://services.localheroes.com/graphql'
 ```json
 {
   "data": {
-    "job_cancelJobByPartnerJobRef": true
+    "job_cancelJobById": true
   }
 }
 ```
@@ -418,7 +418,7 @@ The response can be one of two values:
 
 | Name  | Optional | Notes | Type |
 | - | - | - | - |
-| partnerJobRef | NO | Limit: 255 characters  | String |
+| id | NO | Limit: 11 characters  | Number |
 | reason | YES | Limit: 255 characters | String |
 
 ### HTTP Request
@@ -444,26 +444,26 @@ The error message can be found in `errors[index].message`
 
 ```typescript
 interface RescheduleJobVariables {
-  partnerJobRef: string;
+  id: string;
   timeslot: {
     startDateTime: Date;
     endDateTime: Date;
   };
 }
 interface RescheduleJobResponse {
-  job_rescheduleJobByPartnerJobRef: boolean;
+  job_rescheduleJobById: boolean;
 }
 
-const rescheduleJobByPartnerJobRefMutation = gql`
-  mutation YOUR_COMPANY_NAME_rescheduleJob(partnerJobRef: String!, timeslot: job_InputTimeslot) {
-    job_rescheduleJobByPartnerJobRef(partnerJobRef: $partnerJobRef, timeslot: $timeslot)
+const rescheduleJobByIdMutation = gql`
+  mutation YOUR_COMPANY_NAME_rescheduleJob(id: Int!, timeslot: job_InputTimeslot) {
+    job_rescheduleJobById(id: $id, timeslot: $timeslot)
   }
 `;
 const client = getClient();
 
 const response = await client.mutate<RescheduleJobResponse, RescheduleJobVariables>({
-  mutation: rescheduleJobByPartnerJobRefMutation,
-  variables: { partnerJobRef, timeslot }
+  mutation: rescheduleJobByIdMutation,
+  variables: { id, timeslot }
 });
 ```
 
@@ -472,7 +472,7 @@ curl 'https://services.localheroes.com/graphql'
   -H 'Content-Type: application/json'
   -H 'Accept: application/json'
   -H 'Authorization: Bearer ${YOUR_JWT_HERE}'
-  --data-binary '{"query":"mutation YOUR_COMPANY_NAME_rescheduleJob(partnerJobRef: String!, timeslot: job_InputTimeslot) {\n    job_rescheduleJobByPartnerJobRef(partnerJobRef: $partnerJobRef, timeslot: $timeslot)\n  }","variables":{"partnerJobRef":"1234","timeslot":[{"startDateTime": "2020-01-01T08:00:00.000Z", "endDateTime": "2020-01-01T012:00:00.000Z"}]}'
+  --data-binary '{"query":"mutation YOUR_COMPANY_NAME_rescheduleJob(id: Int!, timeslot: job_InputTimeslot) {\n    job_rescheduleJobById(id: $id, timeslot: $timeslot)\n  }","variables":{"id":1234,"timeslot":[{"startDateTime": "2020-01-01T08:00:00.000Z", "endDateTime": "2020-01-01T012:00:00.000Z"}]}'
   --compressed
 ```
 
@@ -481,7 +481,7 @@ curl 'https://services.localheroes.com/graphql'
 ```json
 {
   "data": {
-    "job_rescheduleJobByPartnerJobRef": true
+    "job_rescheduleJobById": true
   }
 }
 ```
@@ -495,7 +495,7 @@ The response can be one of two values:
 
 | Name  | Optional | Notes | Type |
 | - | - | - | - |
-| partnerJobRef | NO | Limit: 255 characters  | String |
+| id | NO | Limit: 11 characters  | Number |
 | timeslot | NO | The timeslot object | Object |
 | timeslot.startDateTime | NO | The start time of the timeSlot - If none given then value should be null | String |
 | timeslot.endDateTime | NO | The end time of the timeSlot - If none given then value should be null | String 
