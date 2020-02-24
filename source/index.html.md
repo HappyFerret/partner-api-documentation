@@ -92,8 +92,7 @@ You must replace <code>${YOUR_JWT}</code> with the JWT you generated for this re
   "aud": "LocalHeroes",
   "lh:partner": "PARTNER_ID",
   "iat": "ISSUED_AT_DATE",
-  "sub": "PARTNER_ID",
-  "environment": "SANDBOX || PRODUCTION"
+  "sub": "PARTNER_ID"
 }
 ```
 
@@ -102,7 +101,6 @@ Properties to update in the Payload:
 * `lh:partner`: The partner ID provided by LocalHeroes
 * `sub`: The partner ID provided by LocalHeroes
 * `iat`: The date the JWT was issued
-* `environment`: Use "SANDBOX" for testing and "PRODUCTION" for production environment.
 
 ## Generating JWTs
 
