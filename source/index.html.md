@@ -158,6 +158,25 @@ const response = await client.query<CoverageByTaxonomyResponse, CoverageByTaxono
 });
 ```
 
+```javascript
+const data = {
+  query: `query YOUR_COMPANY_NAME_coverageByTaxonomy($area: String!, $taxonomyId: String!) {
+    coverageByTaxonomy(area: $area, taxonomyId: $taxonomyId)
+  }`,
+  variables: { area: 'SA99', taxonomyId: 'lhrn:uk:taxonomy:xxx/xxxx' },
+};
+
+fetch(`https://services.localheroes.com/graphql`, {
+  method: 'POST',
+  headers: {
+    'Authorization': `Bearer YOUR_JWT`,
+    'Referrer': 'YOUR_COMPANY_NAME',
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify(data),
+});
+```
+
 <!-- ```graphql
 query {
   coverageByTaxonomy(area:"sa99", taxonomyId:"lhrn:uk:taxonomy:xxx/xxxx")
@@ -407,6 +426,25 @@ const response = await client.mutate<CancelJobResponse, CancelJobVariables>({
 });
 ```
 
+```javascript
+const data = {
+  query: `mutation YOUR_COMPANY_NAME_cancelJob($id: Int!, $reason: String) {
+    job_cancelJobById(id: $id, reason: $reason)
+  }`,
+  variables: { id: 1, reason: 'A reason' },
+};
+
+fetch(`https://services.localheroes.com/graphql`, {
+  method: 'POST',
+  headers: {
+    'Authorization': `Bearer YOUR_JWT`,
+    'Referrer': 'YOUR_COMPANY_NAME',
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify(data),
+});
+```
+
 ```shell
 curl 'https://services.localheroes.com/graphql'
   -H 'Content-Type: application/json'
@@ -481,6 +519,25 @@ const client = getClient();
 const response = await client.mutate<RescheduleJobResponse, RescheduleJobVariables>({
   mutation: rescheduleJobByIdMutation,
   variables: { id, timeslot }
+});
+```
+
+```javascript
+const data = {
+  query: `mutation YOUR_COMPANY_NAME_rescheduleJob(id: Int!, timeslot: job_InputTimeslot) {
+    job_rescheduleJobById(id: $id, timeslot: $timeslot)
+  }`,
+  variables: { id: 1, timeslot: { startDateTime: '2020-01-01T08:00:00.000Z', endDateTime: '2020-01-01T012:00:00.000Z' } },
+};
+
+fetch(`https://services.localheroes.com/graphql`, {
+  method: 'POST',
+  headers: {
+    'Authorization': `Bearer YOUR_JWT`,
+    'Referrer': 'YOUR_COMPANY_NAME',
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify(data),
 });
 ```
 
