@@ -3,7 +3,7 @@ title: Local Heroes API Documentation
 
 language_tabs: # must be one of https://git.io/vQNgJ
   - typescript
-  # - graphql
+  - javascript
   - shell
 
 toc_footers:
@@ -279,6 +279,25 @@ const response = await client.mutate<CreateJobVariables, CreateJobResponse>({
       },
     }
   }
+});
+```
+
+```javascript
+const data = {
+  query: `mutation YOUR_COMPANY_NAME_createJob($input: job_InputCreateJob!) {
+    job_createJob(input: $input) { id }
+  }`,
+  variables: { input: {...} },
+};
+
+fetch(`https://services.localheroes.com/graphql`, {
+  method: 'POST',
+  headers: {
+    'Authorization': `Bearer YOUR_JWT`,
+    'Referrer': 'YOUR_COMPANY_NAME',
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify(data),
 });
 ```
 
