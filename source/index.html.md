@@ -47,8 +47,12 @@ We recommend three:
 ssh-keygen -t rsa -b 2048 -f ./jwt.key -m PEM && ssh-keygen -f jwt.key.pub -e -m pkcs8
 ```
 
+The public key will be displayed in your terminal, the private key will be in the generated file `jwt.key`.
 After your public/private key pair is generated, please send us your public key and store your private key securely.
 If this doesn't work on your machine you might like to try using Docker (see below)
+
+Your public key should start with `-----BEGIN PUBLIC KEY-----` and ends with `-----END PUBLIC KEY-----` <br />
+Your private key should start with `-----BEGIN RSA PRIVATE KEY-----` and ends with `-----END RSA PRIVATE KEY-----`
 
 ### Using Docker to generate keys
 
