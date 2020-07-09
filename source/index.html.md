@@ -473,6 +473,17 @@ The response can be one of two values:
 * `true` - The job has been cancelled
 * An error condition reported in the error object.
 
+### Sandbox
+
+We recommend that you first try cancelling a Job using our API Sandbox.
+Here are the different values:
+
+| Id            | Error |
+| ------------- | ------------- |
+| 0             | Not authorized |
+| 1             | Job cancellation failed |
+| anything else |	Job has been cancelled |
+
 ### Variables
 
 | Name  | Optional | Notes | Type |
@@ -568,6 +579,17 @@ The response can be one of two values:
 
 * `true` - The job has been rescheduled
 * An error condition reported in the error object.
+
+### Sandbox
+
+We recommend that you first try rescheduling a Job using our API Sandbox.
+Here are the different values:
+
+| Id            | Error |
+| ------------- | ------------- |
+| 0             | Not authorized |
+| 1             | Job reschedule failed |
+| anything else |	Job has been rescheduled |
 
 ### Variables
 
