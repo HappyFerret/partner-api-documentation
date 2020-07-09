@@ -478,7 +478,7 @@ The response can be one of two values:
 We recommend that you first try cancelling a Job using our API Sandbox.
 Here are the different values:
 
-| Id            | Error |
+| Id            | Outcome |
 | ------------- | ------------- |
 | 0             | Not authorized |
 | 1             | Job cancellation failed |
@@ -585,7 +585,7 @@ The response can be one of two values:
 We recommend that you first try rescheduling a Job using our API Sandbox.
 Here are the different values:
 
-| Id            | Error |
+| Id            | Outcome |
 | ------------- | ------------- |
 | 0             | Not authorized |
 | 1             | Job reschedule failed |
