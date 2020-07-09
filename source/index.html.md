@@ -47,6 +47,9 @@ We recommend three:
 ssh-keygen -t rsa -b 2048 -f ./jwt.key -m PEM && ssh-keygen -f jwt.key.pub -e -m pkcs8
 ```
 
+You will have to generate 2 public/private key pair, one will be used for our Sandbox environment, one for production. Please let us know
+which one is which so we can flag it accordingly on our side.
+
 The public key will be displayed in your terminal, the private key will be in the generated file `jwt.key`.
 After your public/private key pair is generated, please send us your public key and store your private key securely.
 If this doesn't work on your machine you might like to try using Docker (see below)
