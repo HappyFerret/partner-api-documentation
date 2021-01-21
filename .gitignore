@@ -25,3 +25,4 @@ doc/
 
 codeship.env
 codeship.aes
+vendor/

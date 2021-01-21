@@ -256,7 +256,8 @@ interface CreateJobVariables {
           labourCost: number;
           partsCost: number;
           approvedByCustomer: boolean;
-        }
+        },
+        partnerJobRef?: string;
       },
       customer: {
         email: string;
@@ -369,7 +370,8 @@ We use the following Special postcodes for error triggering:
 | job.address3 | YES | Limit: 255 characters | String |
 | job.description | YES | Limit: 1024 characters | String |
 | job.taxonomyId | NO | Provided by LocalHeroes | String |
-| job.timeSlot | YES | The array containing the timeSlots | Array |
+| job.partnerJobRef | YES | Your reference for this job | String |
+| job.timeSlot | YES | The array containing the timeSlots (if you do not supply this property the date will be "flexible" and the hero will arrange a date with the customer) | Array |
 | job.timeSlot.startDateTime | NO | The start time of the timeSlot - If none given then value should be null | String |
 | job.timeSlot.endDateTime | NO | The end time of the timeSlot - If none given then value should be null | String |
 | job.quote | YES | The object containing the quote information | Object |
