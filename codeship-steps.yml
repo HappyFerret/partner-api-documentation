@@ -1,8 +1,11 @@
 - name: Build
   service: partner-api-documentation
-  tag: master
   command: make build
-- name: Deploy
+- name: Deploy QA
+  service: awsdeployment
+  tag: qa
+  command: aws s3 sync /app/build s3://docs.qa.superwilbur.com/partner --acl public-read --delete
+- name: Deploy Prod
   service: awsdeployment
   tag: master
   command: aws s3 sync /app/build s3://docs.localheroes.com/partner --acl public-read --delete

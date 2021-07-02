@@ -230,6 +230,389 @@ The response can be one of three values:
 - `Referrer: YOUR_COMPANY_NAME`
 - `Content-Type: application/json`
 
+# Specialities
+
+## Get specialities
+
+```typescript
+interface SpecialitiesResponse {
+  specialities: Speciality[];
+}
+
+interface Speciality {
+  id: number;
+  description: string;
+  workItems: WorkItem[];
+}
+
+interface WorkItem {
+  id: number;
+  description: string;
+  temporaryFixAllowed: boolean;
+  type: string;
+}
+
+const specialitiesQuery = gql`
+  query YOUR_COMPANY_NAME_specialities { 
+    specialities {
+      id
+      description
+      workItems {
+        id
+        description
+        temporaryFixAllowed
+        type
+      }
+    }
+  }
+`;
+const client = getClient();
+
+const response = await client.query<SpecialitiesResponse>({
+  query: specialitiesQuery,
+});
+```
+
+```javascript
+const data = {
+  query: `query YOUR_COMPANY_NAME_specialities { 
+    specialities {
+      id
+      description
+      workItems {
+        id
+        description
+        temporaryFixAllowed
+        type
+      }
+    }
+  }`,
+};
+
+fetch(`https://services.localheroes.com/graphql`, {
+  method: 'POST',
+  headers: {
+    'Authorization': `Bearer YOUR_JWT`,
+    'Referrer': 'YOUR_COMPANY_NAME',
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify(data),
+});
+```
+
+
+```shell
+curl 'https://services.localheroes.com/graphql'
+  -H "Authorization: ${YOUR_JWT}"
+  -H 'Content-Type: application/json'
+  -H 'Accept: application/json'
+  --data-binary '{"query":"query YOUR_COMPANY_NAME_specialities { \n  specialities {\n    id\n    description\n    workItems {\n      id\n      description\n      temporaryFixAllowed\n      type\n    }\n  }\n}\n\n","operationName":"YOUR_COMPANY_NAME_specialities"}'
+  --compressed
+```
+
+> The above request returns JSON structured like this:
+
+```json
+{
+  "data": {
+    "specialities": [
+      {
+        "id": 2,
+        "description": "Heating Engineer",
+        "workItems": [
+          {
+            "id": 1322,
+            "description": "Hot water tank isn't heating",
+            "temporaryFixAllowed": true,
+            "type": "ESTIMATE"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+### Response
+
+| Name | Notes | Type |
+| - | - | - |
+| id | ID for the speciality | Integer |
+| description | Brief description of the speciality | String |
+| workItems | Work items for the speciality | WorkItem |
+| workItems.id | ID for a work item | Integer |
+| workItems.description | Description of the work item | String |
+| workItems.temporaryFixAllowed | Do we allow temporary fixes by the heroes | Boolean |
+| workItems.type | If the work item estimate is ESTIMATE or QUOTE | Boolean |
+
+### HTTP Request
+
+`POST https://services.localheroes.com/graphql`
+
+### HTTP Headers
+
+- `Authorization: Bearer JWT_TOKEN_HERE`
+- `Referrer: YOUR_COMPANY_NAME`
+- `Content-Type: application/json`
+# Taxonomies
+
+## Get taxonomies
+
+```typescript
+interface TaxonomiesVariables {
+  type: string;
+}
+interface TaxonomiesResponse {
+  taxonomies: Taxonomy[];
+}
+
+interface Taxonomy {
+  taxonomyId: string;
+  id: string;
+  workItemId: number;
+  description: string;
+  hintText: string;
+  keyphrases: string[];
+  specialityId: number;
+  traderDefault: boolean;
+  enabled: boolean;
+  item: string;
+  defect: string;
+}
+
+const taxonomiesQuery = gql`
+  query YOUR_COMPANY_NAME_taxonomies($type: String!) { 
+    taxonomies(type: $type) { 
+      workItemId
+      description
+      hintText
+      keyphrases
+      ... on DropdownTaxonomy { 
+        taxonomyId
+        specialityId
+        tradeDefault
+        enabled
+        item
+        defect
+      } 
+    } 
+  }
+`;
+const client = getClient();
+
+const response = await client.query<TaxonomiesResponse, TaxonomiesVariables>({
+  query: taxonomiesQuery,
+  variables: { type }
+});
+```
+
+```javascript
+const data = {
+  query: `query YOUR_COMPANY_NAME_taxonomies($type: String!) { 
+    taxonomies(type: $type) { 
+      workItemId
+      description
+      hintText
+      keyphrases
+      ... on DropdownTaxonomy { 
+        taxonomyId
+        specialityId
+        tradeDefault
+        enabled
+        item
+        defect
+      } 
+    } 
+  }`,
+  variables: { type: 'DropdownTaxonomy' },
+};
+
+fetch(`https://services.localheroes.com/graphql`, {
+  method: 'POST',
+  headers: {
+    'Authorization': `Bearer YOUR_JWT`,
+    'Referrer': 'YOUR_COMPANY_NAME',
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify(data),
+});
+```
+
+
+```shell
+curl 'https://services.localheroes.com/graphql'
+  -H "Authorization: ${YOUR_JWT}"
+  -H 'Content-Type: application/json'
+  -H 'Accept: application/json'
+  --data-binary '{"query":"query YOUR_COMPANY_NAME_taxonomies($type: String!) { \n  taxonomies(type: $type) { \n    workItemId\n    description\n    hintText\n    keyphrases\n    ... on DropdownTaxonomy { \n      taxonomyId\n      specialityId\n      tradeDefault\n      enabled\n      item\n      defect\n    } \n  } \n}","variables":{"type":"DropdownTaxonomy"},"operationName":"YOUR_COMPANY_NAME_taxonomies"}'
+  --compressed
+```
+
+> The above request returns JSON structured like this:
+
+```json
+{
+  "data": {
+    "taxonomies": [
+      {
+        "taxonomyId": "lhrn:uk:taxonomy:tid/1280",
+        "workItemId": 1281,
+        "description": "Bath is draining slowly",
+        "hintText": "Is there any more info that could help the Hero? Are any other items draining slowly in the property?",
+        "keyphrases": [
+          "plumber"
+        ],
+        "specialityId": 1,
+        "tradeDefault": false,
+        "enabled": true,
+        "item": "Bath",
+        "defect": "Draining slowly"
+      }
+    ]
+  }
+}
+```
+### Response
+
+| Name | Notes | Type |
+| - | - | - |
+| taxonomyId | ID for the taxonomy | String |
+| workItemId | ID for the work item | Integer |
+| description | Brief description of the taxonomy | String |
+| hintText | Prompt displayed to customer to request further information | String |
+| keyphrases | List of key phrases related to the taxonomy | [String] |
+| specialityId | The ID of the trade speciality | Integer |
+| tradeDefault | Is this the default taxonomy for the trade | Boolean |
+| enabled | Is this taxonomy currently enabled | Boolean |
+| item | The item this taxonomy refers to | String |
+| defect | The problem with this item | String |
+
+### Variables
+
+| Name  | Optional | Notes | Type |
+| - | - | - | - |
+| type | NO | The required taxonomy list type | String |
+
+### HTTP Request
+
+`POST https://services.localheroes.com/graphql`
+
+### HTTP Headers
+
+- `Authorization: Bearer JWT_TOKEN_HERE`
+- `Referrer: YOUR_COMPANY_NAME`
+- `Content-Type: application/json`
+
+# Estimate
+
+## Get estimate
+
+```typescript
+interface EstimateVariables {
+  postcode: string;
+  workItemId: number;
+}
+
+interface EstimateResponse {
+  estimate: {
+    high: number;
+    low: number;
+    maxRate: number;
+    type: string;
+  };
+}
+
+const estimateQuery = gql`
+  query YOUR_COMPANY_NAME_estimate($postcode: String!, $workItemId: Int!) { 
+    estimate(postcode: $postcode, workItemId: $workItemId) { 
+      high
+      low
+      maxRate
+      type
+    } 
+  }
+`;
+const client = getClient();
+
+const response = await client.query<EstimateResponse, EstimateVariables>({
+  query: estimateQuery,
+  variables: { postcode, workItemId }
+});
+```
+
+```javascript
+const data = {
+  query: `  query YOUR_COMPANY_NAME_estimate($postcode: String!, $workItemId: Int!) { 
+    estimate(postcode: $postcode, workItemId: $workItemId) { 
+      high
+      low
+      maxRate
+      type
+    } 
+  }`,
+  variables: { postcode: 'SA99 1AB', workItemId: 1281 },
+};
+
+fetch(`https://services.localheroes.com/graphql`, {
+  method: 'POST',
+  headers: {
+    'Authorization': `Bearer YOUR_JWT`,
+    'Referrer': 'YOUR_COMPANY_NAME',
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify(data),
+});
+```
+
+
+```shell
+curl 'https://services.localheroes.com/graphql'
+  -H "Authorization: ${YOUR_JWT}"
+  -H 'Content-Type: application/json'
+  -H 'Accept: application/json'
+  --data-binary '{"query":"query YOUR_COMPANY_NAME_estimate($postcode: String!, $workItemId: Int!) { \n  estimate(postcode: $postcode, workItemId: $workItemId) { \n    high\n    low\n    maxRate\n    type\n  } \n}","variables":{"postcode":"SA99 1AB","workItemId":1281},"operationName":"YOUR_COMPANY_NAME_estimate"}'
+  --compressed
+```
+
+> The above request returns JSON structured like this:
+
+```json
+{
+  "data": {
+    "estimate": {
+      "high": 84,
+      "low": 65,
+      "maxRate": 55,
+      "type": "ESTIMATE"
+    }
+  }
+}
+```
+### Response
+
+| Name | Notes | Type |
+| - | - | - |
+| high | Estimated high price in pounds | Integer |
+| low | Estimated low price in pounds | Integer |
+| maxRate | Maximum hourly rate a trader can charge in pounds | Integer |
+| type | ESTIMATE or QUOTE | String |
+
+### Variables
+
+| Name  | Optional | Notes | Type |
+| - | - | - | - |
+| postcode | NO | The postcode for the job | String |
+| workItemId | NO | The workItemId for the estimate | Integer |
+
+### HTTP Request
+
+`POST https://services.localheroes.com/graphql`
+
+### HTTP Headers
+
+- `Authorization: Bearer JWT_TOKEN_HERE`
+- `Referrer: YOUR_COMPANY_NAME`
+- `Content-Type: application/json`
+
 # Job
 
 ## Create a job
@@ -477,6 +860,155 @@ The response can be one of two values:
 
 * `true` - The job has been cancelled
 * An error condition reported in the error object.
+
+## Get job
+
+```typescript
+interface GetJobVariables {
+  id: number;
+}
+
+interface GetJobResponse {
+  job_getPartnerJob: {
+    id: number;
+    idc: string;
+    description: string;
+    status: string;
+    quote: {
+      description: string;
+      partsCost: number;
+      lhPartsCost: number;
+      partsTotalCost: number;
+      labourCost: number;
+      vatAmount: number;
+      subTotal: number;
+      total: number;
+    }
+  };
+}
+
+const getPartnerJobQuery = gql`
+  query YOUR_COMPANY_NAME_getPartnerJob($id: ID!) { 
+    job_getPartnerJob(id: $id) { 
+      id
+      idc
+      description
+      status
+      quote {
+        description
+        partsCost
+        lhPartsCost
+        partsTotalCost
+        labourCost
+        vatAmount
+        subTotal
+        total
+      }
+    } 
+  }
+`;
+const client = getClient();
+
+const response = await client.query<GetJobResponse, GetJobVariables>({
+  query: getPartnerJobQuery,
+  variables: { id }
+});
+```
+
+```javascript
+const data = {
+  query: `query YOUR_COMPANY_NAME_getPartnerJob($id: ID!) { 
+    job_getPartnerJob(id: $id) { 
+      id
+      idc
+      description
+      status
+      quote {
+        description
+        partsCost
+        lhPartsCost
+        partsTotalCost
+        labourCost
+        vatAmount
+        subTotal
+        total
+      }
+    } 
+  }`,
+  variables: { id: 1234 },
+};
+
+fetch(`https://services.localheroes.com/graphql`, {
+  method: 'POST',
+  headers: {
+    'Authorization': `Bearer YOUR_JWT`,
+    'Referrer': 'YOUR_COMPANY_NAME',
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify(data),
+});
+```
+
+
+```shell
+curl 'https://services.localheroes.com/graphql'
+  -H "Authorization: ${YOUR_JWT}"
+  -H 'Content-Type: application/json'
+  -H 'Accept: application/json'
+  --data-binary '{"query":"query YOUR_COMPANY_NAME_getPartnerJob($id: ID!) { \n    job_getPartnerJob(id: $id) { \n      id\n      idc\n      description\n      status\n      quote {\n        description\n        partsCost\n        lhPartsCost\n        partsTotalCost\n        labourCost\n        vatAmount\n        subTotal\n        total\n      }\n    } \n  }","variables":{"id":1},"operationName":"YOUR_COMPANY_NAME_getPartnerJob"}'
+  --compressed
+```
+
+> The above request returns JSON structured like this:
+
+```json
+{
+  "data": {
+    "job_getJob": {
+      "id": 2066111,
+      "idc": "https://localheroes.com/idc/FkLNUAZgaGy51R",
+      "description": "My pipe is leaking",
+      "status": "QUOTE_PROVIDED",
+      "quote": {
+        "description": "Replace pipe",
+        "partsCost": 200,
+        "lhPartsCost": null,
+        "partsTotalCost": 200,
+        "labourCost": 20,
+        "vatAmount": 36.67,
+        "subTotal": 220,
+        "total": 220
+      }
+    }
+  }
+}
+```
+### Response
+
+| Name | Notes | Type |
+| - | - | - |
+| high | Estimated high price in pounds | Integer |
+| low | Estimated low price in pounds | Integer |
+| maxRate | Maximum hourly rate a trader can charge in pounds | Integer |
+| type | ESTIMATE or QUOTE | String |
+
+### Variables
+
+| Name  | Optional | Notes | Type |
+| - | - | - | - |
+| postcode | NO | The postcode for the job | String |
+| workItemId | NO | The workItemId for the estimate | Integer |
+
+### HTTP Request
+
+`POST https://services.localheroes.com/graphql`
+
+### HTTP Headers
+
+- `Authorization: Bearer JWT_TOKEN_HERE`
+- `Referrer: YOUR_COMPANY_NAME`
+- `Content-Type: application/json`
+
 
 ### Sandbox
 
